@@ -1,0 +1,6 @@
+[ 2017-09-01T11:05:36+08:00 ] 171.113.89.35 /agent.php/Agent/money/getInitialAlert
+ERR: 1146:Table 'db_sdk.c_agent_login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `c_agent_login`
+ERR: 1146:Table 'db_sdk.c_agent_login' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `c_agent_login`
+

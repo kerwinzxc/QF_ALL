@@ -1,0 +1,19 @@
+<?php
+define("HTTP", 'http://');
+define("HTTPS", 'https://');
+define("DOCDOMAIN", '');
+define("DOMAIN", '.'.DOCDOMAIN);
+define("WEBSITE", HTTP.'www'.DOMAIN);
+define("MOBILESITE", HTTPS.'m'.DOMAIN);
+define("SDKSITE", HTTPS.'api'.DOMAIN);
+define("ADMINSITE", HTTPS.'admin'.DOMAIN);
+define("OPENSITE", HTTP.'www'.DOMAIN);
+define("PAYSITE", HTTP.'www'.DOMAIN);
+define("DOWNSITE", HTTP.'down'.DOMAIN.'/sdkgame/');
+define("DOWNIOSSITE", "itms-services://?action=download-manifest&url=https://".'dios'.DOMAIN.'/sdkgame/');
+define("DOWNIP", HTTP.'');
+define("APKSITE", HTTP.'down'.DOMAIN);
+define("AGENTSITE", HTTP.'tg'.DOMAIN);
+define("BBSSITE", HTTP.'www'.DOMAIN);
+define("STATICSITE", HTTP.'static'.DOMAIN);
+define("JZJHSITE", HTTP."www".DOMAIN."/index.php/Index/jzjh.html");

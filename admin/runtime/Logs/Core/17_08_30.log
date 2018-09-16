@@ -1,0 +1,52 @@
+[ 2017-08-30T10:25:02+08:00 ] 171.113.90.19 /admin.php/Core/Game/add.html
+error: 1
+[ 2017-08-30T10:43:27+08:00 ] 171.113.90.19 /admin.php/Core/Game/add.html
+error: 1
+[ 2017-08-30T10:45:57+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T10:46:18+08:00 ] 171.113.90.19 /admin.php/Core/Game/add.html
+error: 1
+[ 2017-08-30T10:50:52+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+ERR: 1062:Duplicate entry '6014' for key 'PRIMARY'
+ [ SQL语句 ] : INSERT INTO `c_game_info` (`publicity`,`description`,`androidurl`,`adxt`,`size`,`score`,`lang`,`yiosurl`,`image`,`app_id`,`mobile_icon`,`upinfo`,`bgthumb`) VALUES ('《罗小黑战记妖灵簿》亡命天涯 卖萌为生','《罗小黑战记》是中国大陆独立动画制作人MTJJ及其工作室制作的一部FLASH动画片，主角罗小黑是一只可爱的小黑猫，其表情活跃于各大网络平台。由漫亚游戏发行的《罗小黑战记妖灵簿》获得MTJJ工作室的正版授权，原汁原味还原游戏内的各种人物、场景！想和罗小黑、罗小白、谛听、比丢、玄离一起战斗吗，快点来到《罗小黑战记妖灵簿》的世界，一较高下吧！','','','','0','','','[{\"url\":\"\\/upload\\/20170830\\/59a626e20294a.jpg\",\"alt\":\"17644388_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2445ca.jpg\",\"alt\":\"17644390_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e278dd5.jpg\",\"alt\":\"17644391_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2b2ebb.jpg\",\"alt\":\"17644393_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2e815b.jpg\",\"alt\":\"17644394_.jpg\"}]','6014','/upload/20170830/59a626a034ccb.png','','/upload/20170830/59a627fe427be.png')
+ERR: 1062:Duplicate entry '6014' for key 'PRIMARY'
+ [ SQL语句 ] : INSERT INTO `c_game_info` (`publicity`,`description`,`androidurl`,`adxt`,`size`,`score`,`lang`,`yiosurl`,`image`,`app_id`,`mobile_icon`,`upinfo`,`bgthumb`) VALUES ('《罗小黑战记妖灵簿》亡命天涯 卖萌为生','《罗小黑战记》是中国大陆独立动画制作人MTJJ及其工作室制作的一部FLASH动画片，主角罗小黑是一只可爱的小黑猫，其表情活跃于各大网络平台。由漫亚游戏发行的《罗小黑战记妖灵簿》获得MTJJ工作室的正版授权，原汁原味还原游戏内的各种人物、场景！想和罗小黑、罗小白、谛听、比丢、玄离一起战斗吗，快点来到《罗小黑战记妖灵簿》的世界，一较高下吧！','','','','0','','','[{\"url\":\"\\/upload\\/20170830\\/59a626e20294a.jpg\",\"alt\":\"17644388_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2445ca.jpg\",\"alt\":\"17644390_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e278dd5.jpg\",\"alt\":\"17644391_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2b2ebb.jpg\",\"alt\":\"17644393_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2e815b.jpg\",\"alt\":\"17644394_.jpg\"}]','6014','/upload/20170830/59a626a034ccb.png','','/upload/20170830/59a627fe427be.png')
+
+[ 2017-08-30T10:51:29+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+ERR: 1062:Duplicate entry '6014' for key 'PRIMARY'
+ [ SQL语句 ] : INSERT INTO `c_game_info` (`publicity`,`description`,`androidurl`,`adxt`,`size`,`score`,`lang`,`yiosurl`,`image`,`app_id`,`mobile_icon`,`upinfo`,`bgthumb`) VALUES ('《罗小黑战记妖灵簿》亡命天涯 卖萌为生','《罗小黑战记》是中国大陆独立动画制作人MTJJ及其工作室制作的一部FLASH动画片，主角罗小黑是一只可爱的小黑猫，其表情活跃于各大网络平台。由漫亚游戏发行的《罗小黑战记妖灵簿》获得MTJJ工作室的正版授权，原汁原味还原游戏内的各种人物、场景！想和罗小黑、罗小白、谛听、比丢、玄离一起战斗吗，快点来到《罗小黑战记妖灵簿》的世界，一较高下吧！','','','','0','','','[{\"url\":\"\\/upload\\/20170830\\/59a626e20294a.jpg\",\"alt\":\"17644388_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2445ca.jpg\",\"alt\":\"17644390_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e278dd5.jpg\",\"alt\":\"17644391_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2b2ebb.jpg\",\"alt\":\"17644393_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2e815b.jpg\",\"alt\":\"17644394_.jpg\"}]','6014','/upload/20170830/59a626a034ccb.png','','/upload/20170830/59a6282dc0341.png')
+ERR: 1062:Duplicate entry '6014' for key 'PRIMARY'
+ [ SQL语句 ] : INSERT INTO `c_game_info` (`publicity`,`description`,`androidurl`,`adxt`,`size`,`score`,`lang`,`yiosurl`,`image`,`app_id`,`mobile_icon`,`upinfo`,`bgthumb`) VALUES ('《罗小黑战记妖灵簿》亡命天涯 卖萌为生','《罗小黑战记》是中国大陆独立动画制作人MTJJ及其工作室制作的一部FLASH动画片，主角罗小黑是一只可爱的小黑猫，其表情活跃于各大网络平台。由漫亚游戏发行的《罗小黑战记妖灵簿》获得MTJJ工作室的正版授权，原汁原味还原游戏内的各种人物、场景！想和罗小黑、罗小白、谛听、比丢、玄离一起战斗吗，快点来到《罗小黑战记妖灵簿》的世界，一较高下吧！','','','','0','','','[{\"url\":\"\\/upload\\/20170830\\/59a626e20294a.jpg\",\"alt\":\"17644388_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2445ca.jpg\",\"alt\":\"17644390_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e278dd5.jpg\",\"alt\":\"17644391_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2b2ebb.jpg\",\"alt\":\"17644393_.jpg\"},{\"url\":\"\\/upload\\/20170830\\/59a626e2e815b.jpg\",\"alt\":\"17644394_.jpg\"}]','6014','/upload/20170830/59a626a034ccb.png','','/upload/20170830/59a6282dc0341.png')
+
+[ 2017-08-30T11:27:46+08:00 ] 171.113.90.19 /admin.php/Core/Game/add.html
+error: 1
+[ 2017-08-30T11:30:37+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T11:52:02+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T11:59:45+08:00 ] 171.113.90.19 /admin.php/Core/Game/add.html
+error: 1
+[ 2017-08-30T12:03:31+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T14:15:53+08:00 ] 171.113.90.19 /admin.php/Core/Game/add.html
+error: 1
+[ 2017-08-30T14:20:39+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T14:26:47+08:00 ] 171.113.90.19 /admin.php/Core/Game/add.html
+error: 1
+[ 2017-08-30T14:34:20+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T15:10:02+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T15:12:43+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T15:13:16+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T15:13:23+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T15:13:29+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T15:13:37+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
+[ 2017-08-30T16:15:27+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1

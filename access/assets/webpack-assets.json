@@ -1,0 +1,12 @@
+{
+  "vendor": {
+    "js": "/assets/static/vendor.c08ed870881ae4417c7d.bundle.js"
+  },
+  "main": {
+    "js": "/assets/static/main.c08ed870881ae4417c7d.bundle.js",
+    "css": "/assets/main.bundle.css"
+  },
+  "polyfills": {
+    "js": "/assets/static/polyfills.c08ed870881ae4417c7d.bundle.js"
+  }
+}

@@ -1,0 +1,26 @@
+[ 2017-08-31T11:18:12+08:00 ] 171.113.90.19 /admin.php/Core/Game/add.html
+error: 1
+[ 2017-08-31T11:18:42+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+ERR: 1062:Duplicate entry '6011' for key 'PRIMARY'
+ [ SQL语句 ] : INSERT INTO `c_game_info` (`publicity`,`description`,`androidurl`,`adxt`,`size`,`score`,`lang`,`yiosurl`,`image`,`app_id`,`mobile_icon`,`upinfo`,`bgthumb`) VALUES ('《率土之滨》全自由实时沙盘战略手游','普天之下，莫非王土；率土之滨，莫非王臣。沙盘战略，寸土必争！《率土之滨》开启沙盘战略元年！
+、《率土之滨》是一款全自由实时沙盘战略手游。这个世界由225万格不同产出的土地构成，骑兵行军一周需要4天4夜。这个世界中，每一寸土地都可争夺，玩家们置身其间，发展内政，招募将领，结交盟友，从零开始打造势力范围。领土资源有限，争夺无处不在。利益决定战略，玩家们场上激烈对抗，场外合纵连横。
+                          		','','','','0','','https://itunes.apple.com/cn/app/lu-tu-zhi-bin-wang-yi-quan/id909211092?mt=8','[{\"url\":\"\\/upload\\/20170829\\/59a53ebc2faa4.jpg\",\"alt\":\"17876905_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebc71af1.jpg\",\"alt\":\"17876906_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebcb03cd.jpg\",\"alt\":\"17876907_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebce86cf.jpg\",\"alt\":\"17876908_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebd29698.jpg\",\"alt\":\"17876909_.jpg\"}]','6011','/upload/20170829/59a53eb0e0983.png','','')
+ERR: 1062:Duplicate entry '6011' for key 'PRIMARY'
+ [ SQL语句 ] : INSERT INTO `c_game_info` (`publicity`,`description`,`androidurl`,`adxt`,`size`,`score`,`lang`,`yiosurl`,`image`,`app_id`,`mobile_icon`,`upinfo`,`bgthumb`) VALUES ('《率土之滨》全自由实时沙盘战略手游','普天之下，莫非王土；率土之滨，莫非王臣。沙盘战略，寸土必争！《率土之滨》开启沙盘战略元年！
+、《率土之滨》是一款全自由实时沙盘战略手游。这个世界由225万格不同产出的土地构成，骑兵行军一周需要4天4夜。这个世界中，每一寸土地都可争夺，玩家们置身其间，发展内政，招募将领，结交盟友，从零开始打造势力范围。领土资源有限，争夺无处不在。利益决定战略，玩家们场上激烈对抗，场外合纵连横。
+                          		','','','','0','','https://itunes.apple.com/cn/app/lu-tu-zhi-bin-wang-yi-quan/id909211092?mt=8','[{\"url\":\"\\/upload\\/20170829\\/59a53ebc2faa4.jpg\",\"alt\":\"17876905_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebc71af1.jpg\",\"alt\":\"17876906_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebcb03cd.jpg\",\"alt\":\"17876907_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebce86cf.jpg\",\"alt\":\"17876908_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebd29698.jpg\",\"alt\":\"17876909_.jpg\"}]','6011','/upload/20170829/59a53eb0e0983.png','','')
+
+[ 2017-08-31T11:19:09+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+ERR: 1062:Duplicate entry '6011' for key 'PRIMARY'
+ [ SQL语句 ] : INSERT INTO `c_game_info` (`publicity`,`description`,`androidurl`,`adxt`,`size`,`score`,`lang`,`yiosurl`,`image`,`app_id`,`mobile_icon`,`upinfo`,`bgthumb`) VALUES ('《率土之滨》全自由实时沙盘战略手游','普天之下，莫非王土；率土之滨，莫非王臣。沙盘战略，寸土必争！《率土之滨》开启沙盘战略元年！
+、《率土之滨》是一款全自由实时沙盘战略手游。这个世界由225万格不同产出的土地构成，骑兵行军一周需要4天4夜。这个世界中，每一寸土地都可争夺，玩家们置身其间，发展内政，招募将领，结交盟友，从零开始打造势力范围。领土资源有限，争夺无处不在。利益决定战略，玩家们场上激烈对抗，场外合纵连横。
+                          		','','','','0','','https://itunes.apple.com/cn/app/lu-tu-zhi-bin-wang-yi-quan/id909211092?mt=8','[{\"url\":\"\\/upload\\/20170829\\/59a53ebc2faa4.jpg\",\"alt\":\"17876905_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebc71af1.jpg\",\"alt\":\"17876906_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebcb03cd.jpg\",\"alt\":\"17876907_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebce86cf.jpg\",\"alt\":\"17876908_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebd29698.jpg\",\"alt\":\"17876909_.jpg\"}]','6011','/upload/20170829/59a53eb0e0983.png','','')
+ERR: 1062:Duplicate entry '6011' for key 'PRIMARY'
+ [ SQL语句 ] : INSERT INTO `c_game_info` (`publicity`,`description`,`androidurl`,`adxt`,`size`,`score`,`lang`,`yiosurl`,`image`,`app_id`,`mobile_icon`,`upinfo`,`bgthumb`) VALUES ('《率土之滨》全自由实时沙盘战略手游','普天之下，莫非王土；率土之滨，莫非王臣。沙盘战略，寸土必争！《率土之滨》开启沙盘战略元年！
+、《率土之滨》是一款全自由实时沙盘战略手游。这个世界由225万格不同产出的土地构成，骑兵行军一周需要4天4夜。这个世界中，每一寸土地都可争夺，玩家们置身其间，发展内政，招募将领，结交盟友，从零开始打造势力范围。领土资源有限，争夺无处不在。利益决定战略，玩家们场上激烈对抗，场外合纵连横。
+                          		','','','','0','','https://itunes.apple.com/cn/app/lu-tu-zhi-bin-wang-yi-quan/id909211092?mt=8','[{\"url\":\"\\/upload\\/20170829\\/59a53ebc2faa4.jpg\",\"alt\":\"17876905_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebc71af1.jpg\",\"alt\":\"17876906_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebcb03cd.jpg\",\"alt\":\"17876907_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebce86cf.jpg\",\"alt\":\"17876908_.jpg\"},{\"url\":\"\\/upload\\/20170829\\/59a53ebd29698.jpg\",\"alt\":\"17876909_.jpg\"}]','6011','/upload/20170829/59a53eb0e0983.png','','')
+
+[ 2017-08-31T14:58:41+08:00 ] 171.113.90.19 /admin.php/Core/Game/add.html
+error: 1
+[ 2017-08-31T15:07:35+08:00 ] 171.113.90.19 /admin.php/Core/Game/edit_post.html
+error: 1
