@@ -9,8 +9,12 @@ class Hello extends Controller {
     }
 
     public function index() {
-        $ttt = "tttt";
-        var_dump($ttt);
-        return json_encode("hello");
+        $data = array(
+            'username' => 'demo@example.com',
+            'password' => 'Demo!123',
+            'grant_type' => 'password'
+        );
+        $rs = \pksdk\request\Request::postWithoutPkTokenJsonResponse("https://playground.dobby.sandbx.co/security/oauth/token", $data);
+        return hs_api_responce(200, $rs);
     }
 }
