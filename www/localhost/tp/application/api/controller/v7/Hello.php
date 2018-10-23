@@ -2,6 +2,7 @@
 namespace app\api\controller\v7;
 
 use think\Controller;
+use think\Log;
 
 class Hello extends Controller {
     function _initialize() {
@@ -15,6 +16,7 @@ class Hello extends Controller {
             'grant_type' => 'password'
         );
         $rs = \pksdk\request\Request::postWithoutPkTokenJsonResponse("https://playground.dobby.sandbx.co/security/oauth/token", $data);
-        return hs_api_responce(200, $rs);
+        $customer = \pksdk\request\Request::getWithPkTokenJsonResponse("https://playground.dobby.sandbx.co/api/portal/api/user", $rs['access_token']);
+        return hs_api_responce(200, $customer);
     }
 }

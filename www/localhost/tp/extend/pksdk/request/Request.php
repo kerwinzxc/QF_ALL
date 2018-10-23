@@ -10,6 +10,9 @@ use think\Log;
 define("PK_CURL_AUTHORIZATION_PREFIX", "Authorization: ");
 define("PK_CURL_CONTENT_TYPE_JSON", "CONTENT_TYPE_JSON");
 define("PK_CURL_CONTENT_TYPE_FORM", "CONTENT_TYPE_FORM");
+define("PK_CURL_HTTP_TYPE_GET", "HTTP_TYPE_GET");
+define("PK_CURL_HTTP_TYPE_POST", "HTTP_TYPE_POST");
+
 
 
 class Request
@@ -29,7 +32,7 @@ class Request
     }
 
     /**
-     * CP callback function
+     * CP callback function POST http request
      *
      * @param $url    string url and ports
      * @param $params string post body
@@ -38,15 +41,14 @@ class Request
      */
     public static function postWithoutPkTokenJsonResponse($url, $params)
     {
-        Log::record($params, 'error');
         $params = http_build_query($params);
-        $jsonStr = self::curlPostWithAuthorization($url, $params, PK_CURL_CONTENT_TYPE_FORM, PK_CURL_AUTHORIZATION_PREFIX . 'Basic d2ViY2xpZW50Og==');
+        $jsonStr = self::curlHttpWithAuthorization($url, PK_CURL_HTTP_TYPE_POST, $params, PK_CURL_CONTENT_TYPE_FORM, PK_CURL_AUTHORIZATION_PREFIX . 'Basic d2ViY2xpZW50Og==');
         return json_decode($jsonStr, true);
     }
 
 
     /**
-     * CP callback function
+     * CP callback function POST http request
      *
      * @param $url    string url and ports
      * @param $params string post body
@@ -57,17 +59,33 @@ class Request
     public static function postWithPkTokenJsonResponse($url, $params, $token)
     {
         $params = json_encode($params);
-        $jsonStr = self::curlPostWithAuthorization($url, $params, PK_CURL_CONTENT_TYPE_JSON, PK_CURL_AUTHORIZATION_PREFIX . 'Bearer ' . $token);
+        $jsonStr = self::curlHttpWithAuthorization($url, PK_CURL_HTTP_TYPE_POST, $params, PK_CURL_CONTENT_TYPE_JSON, PK_CURL_AUTHORIZATION_PREFIX . 'Bearer ' . $token);
+        return json_decode($jsonStr, true);
+    }
+
+    /**
+     * CP callback function GET http request
+     *
+     * @param $url    string url and ports
+     * @param $token  string user token get from powerKingdom.
+     *
+     * @return results json Object
+     */
+    public static function getWithPkTokenJsonResponse($url, $token)
+    {
+        $jsonStr = self::curlHttpWithAuthorization($url, PK_CURL_HTTP_TYPE_GET, NULL, PK_CURL_CONTENT_TYPE_JSON, PK_CURL_AUTHORIZATION_PREFIX . 'Bearer ' . $token);
         return json_decode($jsonStr, true);
     }
 
 
-    private static function curlPostWithAuthorization($url, $params, $contentType, $authorization)
+    private static function curlHttpWithAuthorization($url, $httpType, $params, $contentType, $authorization)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_POST, 1);
+        if (strcmp(PK_CURL_HTTP_TYPE_POST, $httpType) == 0) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        }
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);//set timeout
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);//request the results to be string
         //https request
@@ -80,7 +98,9 @@ class Request
             array_push($headers, 'Content-Type: application/x-www-form-urlencoded; charset=utf-8');
         } else if (strcmp(PK_CURL_CONTENT_TYPE_JSON, $contentType) == 0) {
             array_push($headers, 'Content-Type: application/json; charset=utf-8');
-            array_push($headers, 'Content-Length: ' . strlen($params));
+            if (!is_null($params)) {
+                array_push($headers, 'Content-Length: ' . strlen($params));
+            }
         }
         if (is_string($authorization)) {
             array_push($headers, "{$authorization}");
