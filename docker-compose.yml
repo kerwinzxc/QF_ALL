@@ -1,0 +1,64 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./www/:/var/www/html/:rw
+      - ./conf/conf.d:/etc/nginx/:rw
+      - ./log/:/var/log/dnmp/:rw
+    restart: always
+    networks:
+      - net-php72
+
+  php72:
+    build:
+      context: .
+      args:
+        PHP_VERSION: 7.2
+        SOURCE_LIST: stretch
+        XDEBUG_VERSION: 2.6.1
+        SWOOLE_VERSION: 4.2.1
+        SUPPORT_MCRYPT: "false"
+        BUILT_IN_OPCACHE: "true"
+    expose:
+      - "9000"
+    volumes:
+      - ./www/:/var/www/html/:rw
+      - ./conf/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./conf/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ./log/:/var/log/dnmp/:rw
+    restart: always
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      - net-php72
+      - net-mysql
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
+      - ./mysql/:/var/lib/mysql/:rw
+    restart: always
+    networks:
+      - net-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "8080:80"
+    networks:
+      - net-mysql
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+
+networks:
+  net-php72:
+  net-mysql:
