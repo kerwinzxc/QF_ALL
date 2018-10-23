@@ -29,6 +29,8 @@ return [
     /*玩家游戏数据*/
     ':version/user/uproleinfo'       => 'player/:version.Userrole/set', /* 上传角色信息  */
 
+    ':version/hello'                 => 'api/:version.Hello/index',
+
     /*oa接口*/
     'oa/oalogin'                   => 'oa/oalogin/login', /* 上传角色信息  */
     'oa/callback'                  => 'oa/Oacallback/index', /* OA访问处理  */
