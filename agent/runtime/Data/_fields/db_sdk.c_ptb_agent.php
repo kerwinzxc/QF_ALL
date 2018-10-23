@@ -1,1 +1,0 @@
-a:8:{i:0;s:8:"agent_id";i:1;s:9:"sum_money";i:2;s:5:"total";i:3;s:6:"remain";i:4;s:11:"create_time";i:5;s:11:"update_time";s:3:"_pk";s:8:"agent_id";s:5:"_type";a:6:{s:8:"agent_id";s:16:"int(11) unsigned";s:9:"sum_money";s:12:"double(12,2)";s:5:"total";s:12:"double(12,2)";s:6:"remain";s:12:"double(12,2)";s:11:"create_time";s:10:"bigint(20)";s:11:"update_time";s:10:"bigint(20)";}}
