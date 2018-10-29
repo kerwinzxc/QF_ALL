@@ -19,12 +19,12 @@ return [
     /* 短信 */
     ':version/sms/send'              => 'api/:version.Sms/send', /* 发送手机短信  */
     /*玩家接口*/
-    ':version/user/registerone'      => 'player/:version.Userreg/regOne', /* 一键注册  */
-    ':version/user/register'         => 'player/:version.Userreg/register', /* 普通注册  */
-    ':version/user/registermobile'   => 'player/:version.Userreg/regMobile', /* 手机注册  */
-    ':version/user/login'            => 'player/:version.Userlogin/login', /* 普通登陆  */
-    ':version/user/loginmobile'      => 'player/:version.Userlogin/loginMobile', /* 手机登陆  */
-    ':version/user/loginoauth'       => 'player/:version.Userlogin/loginOauth', /* 第三方登陆  */
+    #':version/user/registerone'      => 'player/:version.Userreg/regOne', /* 一键注册  */
+    #':version/user/register'         => 'player/:version.Userreg/register', /* 普通注册  */
+    #':version/user/registermobile'   => 'player/:version.Userreg/regMobile', /* 手机注册  */
+    ':version/user/login'            => 'player/:version.Userlogin/loginPk', /* 普通登陆  */
+    #':version/user/loginmobile'      => 'player/:version.Userlogin/loginMobile', /* 手机登陆  */
+    #':version/user/loginoauth'       => 'player/:version.Userlogin/loginOauth', /* 第三方登陆  */
     ':version/user/logout'           => 'player/:version.Userlogin/logout', /* 登出  */
     /*玩家游戏数据*/
     ':version/user/uproleinfo'       => 'player/:version.Userrole/set', /* 上传角色信息  */

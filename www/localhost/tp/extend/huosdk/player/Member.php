@@ -309,6 +309,100 @@ class Member {
     }
     /* END 2017-06-20 ISSUES:2738 */
 
+
+    public function loginPk($data, $pkToken, $pkUser) {
+        $_map['openid'] = $pkUser['id'];
+        $_oauth_data = Db::name('mem_oauth')->where($_map)->find();
+        $_field = [
+            'id',
+            'username',
+            'email',
+            'mobile',
+            'nickname',
+            'agent_id',
+            'reg_time',
+            'status',
+            'portrait',//20170523新增返回
+        ];
+
+        $head_img = '';
+        if (!empty($pkUser["imageLinks"])) {
+            $imageLinks = $pkUser["imageLinks"];
+            if (!empty($imageLinks["photoOrig"])) {
+                $head_img = $imageLinks["photoOrig"];
+            }
+        }
+
+        if (empty($_oauth_data)) {
+            // insert oauth table use openId as pkId for now.
+            $_oauth_data['from'] = 1;
+            $_oauth_data['name'] = $this->getVal($pkUser, 'loginEmail', '');
+            $_oauth_data['head_img'] = $head_img;
+            $_oauth_data['create_time'] = time();
+            $_oauth_data['last_login_time'] = time();
+            $_oauth_data['last_login_ip'] = $data['ip'];
+            $_oauth_data['status'] = 2;
+            $_oauth_data['mem_id'] = 0;
+            //TODO: access_token is not fiting for the table in qingfeng, needs to create new tables
+            $_oauth_data['access_token'] = "accessToken"; // $pkToken['access_token']
+            $_oauth_data['expires_date'] = $pkToken['expires_in'];
+            $_oauth_data['openid'] = $pkUser['id'];
+            $_oauth_data['id'] = Db::name('mem_oauth')->insertGetId($_oauth_data);
+        }
+
+        if ($_oauth_data['id'] <= 0) {
+            $_mem_info['id'] = -1000;
+            return $_mem_info;
+        }
+
+        if ($_oauth_data['mem_id'] > 0) {
+            $_mem_info = DB::name('members')->where(
+                array(
+                    'id' => $_oauth_data['mem_id']
+                )
+            )->field($_field)->find();
+        } else {
+            $_mem_info['status'] = 1;
+            $_mem_info['username'] = $pkUser["loginEmail"];
+            $_mem_info['password'] = $this->authPwd($pkToken['access_token']);
+            $_mem_info['pay_pwd'] = $_mem_info['password'];
+            $_mem_info['mobile'] = '';
+            $_mem_info['email'] = '';
+            $_mem_info['portrait'] = $_oauth_data['head_img'];
+            $_mem_info['nickname'] = $this->getVal($pkUser, 'nickName', $_mem_info['username']);
+            $_mem_info['from'] = intval($data['from']);
+            $_mem_info['imei'] = $data['device_id'];
+            $_mem_info['agentgame'] = $data['agentgame'];
+            $_mem_info['app_id'] = $data['app_id'];
+            $_mem_info['agent_id'] = isset($data['agent_id']) ? $data['agent_id'] : 0;
+            $_mem_info['reg_time'] = time();
+            $_mem_info['update_time'] = $_mem_info['reg_time'];
+            if (empty($_mem_info['agent_id']) && 'default' != $_mem_info['agentgame']
+                && !empty($_mem_info['agentgame'])) {
+                $_a_class = new \huosdk\agent\Agent(0, $_mem_info['agentgame']);
+                $_mem_info['agent_id'] = $_a_class->getAgentid();
+            }
+            $_mem_info['regist_ip'] = $data['ip'];
+            $_mem_info['id'] = Db::name('members')->insertGetId($_mem_info);
+            if (!$_mem_info['id']) {
+                $_mem_info['id'] = -1000;
+                return $_mem_info;
+            }
+        }
+
+        $_oauth_data['mem_id'] = $_mem_info['id'];
+        $_oauth_data['last_login_time'] = time();
+        $_oauth_data['last_login_ip'] = $data['ip'];
+
+        Db::name('mem_oauth')->update($_oauth_data);
+        foreach ($_field as $_val) {
+            $_rdata[$_val] = $_mem_info[$_val];
+        }
+        return $_rdata;
+    }
+
+
+
     public function loginOauth($data) {
         // 获取第三方信息
         $_map['openid'] = $data['openid'];

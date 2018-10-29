@@ -96,6 +96,50 @@ class Userlogin extends User {
         return hs_player_responce(200, '登陆成功', $_rdata, $this->auth_key);
     }
 
+    function loginPk() {
+        $_key_arr = array(
+            'app_id',
+            'client_id',
+            'from',
+            'device_id',
+            'userua',
+            'username',
+            'password'
+        );
+        $_data = $this->getParams($_key_arr);
+        $_agentgame = $this->getVal($_data, 'agentgame', '');
+        $_data['agentgame'] = $this->getAgentgame($_agentgame);
+        $_data['ip'] = $this->request->ip();
+
+        $pkToken = \pksdk\api\PkApi::getToken($_data['username'], $_data['password']);
+        if (empty($pkToken['access_token'])) {
+            return hs_player_responce('411', '密码错误 或者 用户不存在');
+        }
+        $pkUser = \pksdk\api\PkApi::getUser($pkToken['access_token']);
+        if (empty($pkUser["id"])) {
+            return hs_player_responce('412', '用户不存在');
+        }
+        if (!empty($pkUser["state"]) && $pkUser["state"] != "ACTIVE") {
+            return hs_player_responce('411', '用户已禁用');
+        }
+
+        $_mem_info = $this->m_class->loginPk($_data, $pkToken, $pkUser);
+
+        if (-3 == $_mem_info['id']) {
+            return hs_player_responce('411', '用户已禁用');
+        }
+        if (0 > $_mem_info['id']) {
+            return hs_player_responce(0 - $_mem_info['id'], '登陆失败');
+        }
+        $_flag = 0;
+        if (!empty($_mem_info['flag'])) {
+            $_flag = $_mem_info['flag'];
+        }
+        $_rdata = $this->getReturn($_mem_info, $_data['agentgame'], $_flag);
+
+        return hs_player_responce(200, '登陆成功', $_rdata, $this->auth_key);
+    }
+
     /*
      * 登陆函数实体
      */
