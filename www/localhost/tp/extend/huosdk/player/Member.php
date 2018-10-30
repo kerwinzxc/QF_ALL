@@ -335,19 +335,9 @@ class Member {
 
         if (empty($_oauth_data)) {
             // insert oauth table use openId as pkId for now.
-            $_oauth_data['from'] = 1;
-            $_oauth_data['name'] = $this->getVal($pkUser, 'loginEmail', '');
-            $_oauth_data['head_img'] = $head_img;
-            $_oauth_data['create_time'] = time();
-            $_oauth_data['last_login_time'] = time();
-            $_oauth_data['last_login_ip'] = $data['ip'];
-            $_oauth_data['status'] = 2;
-            $_oauth_data['mem_id'] = 0;
-            //TODO: access_token is not fiting for the table in qingfeng, needs to create new tables
-            $_oauth_data['access_token'] = "accessToken"; // $pkToken['access_token']
-            $_oauth_data['expires_date'] = $pkToken['expires_in'];
             $_oauth_data['openid'] = $pkUser['id'];
             $_oauth_data['id'] = Db::name('mem_oauth')->insertGetId($_oauth_data);
+            $_oauth_data['from'] = 1;
         }
 
         if ($_oauth_data['id'] <= 0) {
@@ -361,38 +351,49 @@ class Member {
                     'id' => $_oauth_data['mem_id']
                 )
             )->field($_field)->find();
-        } else {
-            $_mem_info['status'] = 1;
-            $_mem_info['username'] = $pkUser["loginEmail"];
-            $_mem_info['password'] = $this->authPwd($pkToken['access_token']);
-            $_mem_info['pay_pwd'] = $_mem_info['password'];
-            $_mem_info['mobile'] = '';
-            $_mem_info['email'] = '';
-            $_mem_info['portrait'] = $_oauth_data['head_img'];
-            $_mem_info['nickname'] = $this->getVal($pkUser, 'nickName', $_mem_info['username']);
-            $_mem_info['from'] = intval($data['from']);
-            $_mem_info['imei'] = $data['device_id'];
+        }
+        $_mem_info['status'] = 1;
+        $_mem_info['username'] = $pkUser["loginEmail"];
+        $_mem_info['password'] = $this->authPwd($pkToken['access_token']);
+        $_mem_info['pay_pwd'] = $_mem_info['password'];
+        $_mem_info['mobile'] = '';
+        $_mem_info['email'] = '';
+        $_mem_info['portrait'] = $head_img;
+        $_mem_info['nickname'] = $this->getVal($pkUser, 'nickName', $_mem_info['username']);
+        $_mem_info['from'] = intval($data['from']);
+        $_mem_info['imei'] = $data['device_id'];
+        $_mem_info['update_time'] = time();
+
+        if (empty($_mem_info['id'])) {
             $_mem_info['agentgame'] = $data['agentgame'];
             $_mem_info['app_id'] = $data['app_id'];
             $_mem_info['agent_id'] = isset($data['agent_id']) ? $data['agent_id'] : 0;
             $_mem_info['reg_time'] = time();
-            $_mem_info['update_time'] = $_mem_info['reg_time'];
             if (empty($_mem_info['agent_id']) && 'default' != $_mem_info['agentgame']
                 && !empty($_mem_info['agentgame'])) {
                 $_a_class = new \huosdk\agent\Agent(0, $_mem_info['agentgame']);
                 $_mem_info['agent_id'] = $_a_class->getAgentid();
             }
-            $_mem_info['regist_ip'] = $data['ip'];
             $_mem_info['id'] = Db::name('members')->insertGetId($_mem_info);
             if (!$_mem_info['id']) {
                 $_mem_info['id'] = -1000;
                 return $_mem_info;
             }
+        } else {
+            Db::name('members')->update($_mem_info);
         }
 
-        $_oauth_data['mem_id'] = $_mem_info['id'];
+        $_oauth_data['name'] = $this->getVal($pkUser, 'loginEmail', '');
+        $_oauth_data['head_img'] = $head_img;
+        $_oauth_data['create_time'] = time();
         $_oauth_data['last_login_time'] = time();
         $_oauth_data['last_login_ip'] = $data['ip'];
+        $_oauth_data['status'] = 2;
+        $_oauth_data['mem_id'] = 0;
+        //TODO: access_token is not fitting for the table in qingfeng, needs to create new tables
+        $_oauth_data['access_token'] = "accessToken"; // $pkToken['access_token']
+        $_oauth_data['expires_date'] = $pkToken['expires_in'];
+        $_oauth_data['mem_id'] = $_mem_info['id'];
 
         Db::name('mem_oauth')->update($_oauth_data);
         foreach ($_field as $_val) {
