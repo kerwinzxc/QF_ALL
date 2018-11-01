@@ -73,6 +73,49 @@ class Sdkpay extends Basepay {
         $this->assign('title', "充值中心");
         $this->assign('_pay_switch', $_pay_switch);
         $this->assign('_app_info', $_app_info);
+        $pkData = [
+            [
+                'state' => 'PURCHASED',
+                'purchaseUuid' => '53ed5476-98a8-4e08-83e6-41733ed77b27',
+                'type' => 'ASSET',
+                'loginEmail' => 'demo@example.com',
+                'itemUuid' => 'demo-game-gold10',
+                'gameUuid' => 'demo-game',
+                'price' => 10,
+                'purpose' => 'Demo Game, Gold 10'
+            ],
+            [
+                'state' => 'PURCHASED',
+                'purchaseUuid' => '53ed5476-98a8-4e08-83e6-2222222',
+                'type' => 'ASSET',
+                'loginEmail' => 'demo@example.com',
+                'itemUuid' => 'demo-game-gold10',
+                'gameUuid' => 'demo-game',
+                'price' => 20,
+                'purpose' => 'Demo Game, Gold 10'
+            ],
+            [
+                'state' => 'PURCHASED',
+                'purchaseUuid' => '53ed5476-98a8-4e08-83e6-41733ed77b27',
+                'type' => 'ASSET',
+                'loginEmail' => 'demo@example.com',
+                'itemUuid' => 'demo-game-gold10',
+                'gameUuid' => 'demo-game',
+                'price' => 10,
+                'purpose' => 'Demo Game, Gold 10'
+            ],
+            [
+                'state' => 'PURCHASED',
+                'purchaseUuid' => '53ed5476-98a8-4e08-83e6-2222222',
+                'type' => 'ASSET',
+                'loginEmail' => 'demo@example.com',
+                'itemUuid' => 'demo-game-gold10',
+                'gameUuid' => 'demo-game',
+                'price' => 20,
+                'purpose' => 'Demo Game, Gold 10'
+            ]
+        ];
+        $this->assign('pkData', $pkData);
 
         return $this->fetch();
     }

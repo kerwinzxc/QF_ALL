@@ -57,23 +57,33 @@
 
 <!--选择支付方式-->
 <div class="change_way" >
-    <h3 class="gray_title" >选择支付方式：</h3 >
+    <h3 class="gray_title" >兑换清风币：</h3 >
     <ul class="way" >
-        <li data-way="alipay" >
-            <div class="way_icon" ><img src="/public/mobile/images/alipay.png" alt="" /></div >
-            <span >支付宝(推荐)</span >
-            <div class="right_icon" ></div >
-        </li >
+        {foreach name="pkData" item="val"}
+            <li data-way="pkpay" >
+                <div class="way_icon"><img src="/public/mobile/images/alipay.png" alt="" /></div>
+                <span >{$val.price}</span>
+                <span >{$val.purpose}</span>
+                <div class="right_icon" ></div >
+            </li>
+        {/foreach}
+
+
+        <!--<li data-way="alipay" >-->
+            <!--<div class="way_icon" ><img src="/public/mobile/images/alipay.png" alt="" /></div >-->
+            <!--<span >支付宝(推荐)</span >-->
+            <!--<div class="right_icon" ></div >-->
+        <!--</li >-->
         <!--<li data-way="wxpay" >-->
             <!--<div class="way_icon" ><img src="/public/mobile/images/wxpay.png" alt="" /></div >-->
             <!--<span >微信支付</span >-->
             <!--<div class="right_icon" ></div >-->
         <!--</li >-->
-        <li data-way="nowpay" >
-            <div class="way_icon" ><img src="/public/mobile/images/wxpay.png" alt="" /></div >
-            <span >微信支付</span >
-            <div class="right_icon" ></div >
-        </li >
+        <!--<li data-way="nowpay" >-->
+            <!--<div class="way_icon" ><img src="/public/mobile/images/wxpay.png" alt="" /></div >-->
+            <!--<span >微信支付</span >-->
+            <!--<div class="right_icon" ></div >-->
+        <!--</li >-->
         <!--<li data-way="zwxpay" >
             <div class="way_icon" ><img src="/public/mobile/images/wxpay.png" alt="" /></div >
             <span >微信支付</span >
