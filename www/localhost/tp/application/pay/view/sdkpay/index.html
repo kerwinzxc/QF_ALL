@@ -30,7 +30,7 @@
 </header> -->
 <!--帐号信息-->
 <div class="account_information" >
-    <p class="account" >帐号：<i >{$Think.session.user.username}</i ></p >
+    <p class="account" >PowerKingdom帐号：<i >{$Think.session.user.username}</i ></p >
     <p class="balance" >{:config('config.CURRENCY_NAME')}余额：<span >{$Think.session.user.gmremain}</span ></p >
 </div >
 <!--购买信息-->
@@ -61,16 +61,17 @@
     <ul class="way" >
         {foreach name="pkData" item="val"}
             <li data-way="pkpay" >
-                <div class="way_icon"><img src="/public/mobile/images/alipay.png" alt="" /></div>
+                <div class="way_icon"><img src="/public/mobile/images/GEC-logo150.png" alt="" /></div>
                 <span >{$val.price}</span>
                 <span >{$val.purpose}</span>
+                <input type="button" value="兑换" style="width:80px;height:25px;border:2px blue none;">
                 <div class="right_icon" ></div >
             </li>
         {/foreach}
 
 
         <!--<li data-way="alipay" >-->
-            <!--<div class="way_icon" ><img src="/public/mobile/images/alipay.png" alt="" /></div >-->
+            <!--<div class="way_icon" ><img src="/public/mobile/images/GEC-logo150.png" alt="" /></div >-->
             <!--<span >支付宝(推荐)</span >-->
             <!--<div class="right_icon" ></div >-->
         <!--</li >-->
