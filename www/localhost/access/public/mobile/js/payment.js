@@ -5,6 +5,9 @@ huosdk_deviceType     = sUserAgent.match(/ipad/i) == "ipad" ? 'ipad' : 'pc';
 huosdk_deviceType     = sUserAgent.match(/iphone/i) == "iphone" ? 'iphone' : 'pc';
 huosdk_deviceType     = sUserAgent.match(/android/i) == "android" ? 'android' : 'pc';
 /**************支付方式******************/
+var isQingFengBiEnough = function() {
+    return true;
+}
 var changePay         = {
     canPay  : true,
     topClick: 0,
@@ -16,9 +19,6 @@ var changePay         = {
         for (var i = 0; i < liList.length; i ++) {
             liList[i].onclick = function () {
                 me.payType = this.getAttribute("data-way");
-                if (me.payType == null) {
-                    me.payType = "alipay";
-                }
                 if (me.canPay) {
                     var form_data = {
                         paytype : me.payType,
@@ -40,16 +40,10 @@ var changePay         = {
                 }
             };
         }
-        document.querySelector("footer>.pay").onclick = function () {
-            if (me.payType == null) {
-                me.payType = "alipay";
-            }
-            if (me.payType !== null || 'gamepay' == isGamepay) {
-                if ('gamepay' == isGamepay) {
-                    me.payType = 'gamepay';
-                }
+        document.getElementById("pay").onclick = function () {
+            if (isQingFengBiEnough) {
                 var form_data = {
-                    paytype : me.payType,
+                    paytype : "gamepay",
                     orderid : document.getElementById("orderid").value,
                     paytoken: document.getElementById("paytoken").value,
                     randnum : Math.random()
@@ -58,7 +52,7 @@ var changePay         = {
                 ysSendData(vurl, form_data, preorder_succ, preorder_err);
             } else {
                 me.canPay = true;
-                showMobileAlert('请选择支付方式', 'null', '确定', 'right');
+                showMobileAlert('没有足够的清风币', 'null', '确定', 'right');
             }
         };
     }

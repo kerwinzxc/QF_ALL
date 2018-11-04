@@ -55,21 +55,22 @@ class Wallet {
             $_config['rate'] = '1';
         }
         self::$rate = $_config['rate'];
-        if (true === $name || !isset(self::$instance[$name])) {
-            $_class = false !== strpos($_config['type'], '\\')
-                ? $_config['type']
-                : '\\huosdk\\wallet\\'.ucwords(
-                    $_config['type']
-                );
-            // 记录初始化信息
-            App::$debug && Log::record('[ WALLET ] INIT '.$_config['type'], 'info');
-            if (true === $name) {
-                return new $_class($_config['rate']);
-            } else {
-                self::$instance[$name] = new $_class($_config['rate']);
-            }
-        }
-        self::$handler = self::$instance[$name];
+//        if (true === $name || !isset(self::$instance[$name])) {
+//            $_class = false !== strpos($_config['type'], '\\')
+//                ? $_config['type']
+//                : '\\huosdk\\wallet\\'.ucwords(
+//                    $_config['type']
+//                );
+//            // 记录初始化信息
+//            App::$debug && Log::record('[ WALLET ] INIT '.$_config['type'], 'info');
+//            if (true === $name) {
+//                return new $_class($_config['rate']);
+//            } else {
+//                self::$instance[$name] = new $_class($_config['rate']);
+//            }
+//        }
+        //self::$handler = self::$instance[$name];
+        self::$handler = new \huosdk\wallet\Pk(self::$rate);
         return self::$handler;
     }
 

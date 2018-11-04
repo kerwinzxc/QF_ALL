@@ -38,7 +38,7 @@
     <h3 class="info gray_title" >购买信息：</h3 >
     <p class="prop" >购买道具：<span >{$Think.session.order.product_name}</span ></p >
     <p class="prop_price" >道具价格：<span >{$Think.session.order.product_price}</span >元</p >
-    <p class="payed" >{:config('config.CURRENCY_NAME')}支付：<span >{$Think.session.order.gm_cnt}</span ></p >
+    <p class="payed" >{:config('config.CURRENCY_NAME')}剩余：<span >{$Think.session.user.gmremain}</span ></p >
     {egt name="Think.session.order.real_amount" value="0.01"}
     <p class="canPay" >还需支付：<span >{$Think.session.order.real_amount}</span >元
                        {switch name="Think.session.order.benefit_type" }
@@ -53,6 +53,8 @@
     {/switch}
     </p>
 
+    <a id="pay" href="#" class="pay" >立即支付</a >
+
 </div >
 
 <!--选择支付方式-->
@@ -60,7 +62,7 @@
     <h3 class="gray_title" >兑换清风币：</h3 >
     <ul class="way" >
         {foreach name="pkData" item="val"}
-            <li data-way="pkpay" >
+            <li data-way="{$val.purchaseUuid}" >
                 <div class="way_icon"><img src="/public/mobile/images/GEC-logo150.png" alt="" /></div>
                 <span >{$val.price}</span>
                 <span >{$val.purpose}</span>
@@ -111,7 +113,6 @@
 {/egt}
 <!--客服QQ-->
 <footer class="footer" >
-    <a href="#" class="pay" >立即支付</a >
     <p >
         {notempty name="contactdata['qq']"}
         <span >客服QQ：<a onclick="huosdk_openqq(\"{$contactdata['qq']}\");" >{$contactdata['qq']}</a ></span >
@@ -129,7 +130,18 @@
     <input type="hidden" id="paytoken" name="paytoken" value="{$Think.session.order.paytoken}" />
 </form >
 </body >
-<script src="/public/mobile/js/payment.js?v=7.2" ></script >
+<!--<script src="/public/mobile/js/payment.js?v=7.2" ></script >-->
+<script type="text/javascript">
+    (function(){
+        var e = document.getElementsByTagName("script")[0];
+        var d = document.createElement("script");
+        d.src = "/public/mobile/js/payment.js?v=7.2&&r="+Math.random()+"";
+        d.type = "application/javascript";
+        d.async = true;
+        d.defer = true;
+        e.parentNode.insertBefore(d,e);
+    })();
+</script>
 <script src="/public/mobile/js/fastclick.js" ></script >
 <script >
     window.addEventListener("load", function () {

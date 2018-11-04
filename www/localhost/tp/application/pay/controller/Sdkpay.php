@@ -13,8 +13,10 @@
 namespace app\pay\controller;
 
 use app\common\controller\Basepay;
+use pksdk\api\PkApi;
 use think\Db;
 use think\Session;
+use think\Log;
 
 class Sdkpay extends Basepay {
     function _initialize() {
@@ -152,50 +154,57 @@ class Sdkpay extends Basepay {
         $_real_amount = Session::get('real_amount', 'order');
         $_amount = Session::get('product_price', 'order');
         $_p_class = new  \huosdk\pay\Pay();
-        $_p_class->upPayway($_order_id, $_payway);
-        if ($_real_amount <= 0 && $_amount > 0) {
-            /* 全部清风币支付 */
-            $_amount = Session::get('product_price', 'order');
-            /* 更新支付方式 */
-            $_p_class->upPayway($_order_id, 'gamepay');
+        $_p_class->upPayway($_order_id, "gamepay");
+        if ($_real_amount <= 0) {
+            $_p_class->upPayway($_order_id, "gamepay");
             $_p_class->sdkNotify($_order_id, $_amount, $_order_id);
             $_payinfo = $_p_class->clientAjax('gamepay', '', 2);
-
             return hs_pay_responce(200, "支付成功", $_payinfo);
+        } else {
+            return hs_pay_responce(0, "清风币不够，请充值后再支付");
         }
+//        if ($_real_amount <= 0 && $_amount > 0) {
+//            /* 全部清风币支付 */
+//            $_amount = Session::get('product_price', 'order');
+//            /* 更新支付方式 */
+//            $_p_class->upPayway($_order_id, 'gamepay');
+//            $_p_class->sdkNotify($_order_id, $_amount, $_order_id);
+//            $_payinfo = $_p_class->clientAjax('gamepay', '', 2);
+//
+//            return hs_pay_responce(200, "支付成功", $_payinfo);
+//        }
         /* 检查支付类型 huosdktest */
         /* checkPayway; */
         /* 通过支付方式下单 */
-        $_pay_class = \huosdk\pay\Driver::init($_payway);
-        //支付宝不调wap支付的游戏
-        $_app_id = Session::get('app_id', 'app');
-        $_old_games = array();
-        if (!in_array($_app_id,$_old_games)){
-            $_pay_switch = Session::get('pay_switch', 'order');
-        }else{
-            $_pay_switch = 2;
-        }
-        //ios游戏才进行切换操作
-        if (2 != $_pay_switch) {
-            $_payinfo = $_pay_class->mobilePay();
-        } else {
-            $_payinfo = $_pay_class->clientPay();
-        }
-        if (empty($_payinfo)) {
-            return hs_pay_responce('0', "下单失败");
-        }
-        if (2 != $_pay_switch) {
-            $_rdata = array(
-                'status'  => 200,
-                'info'    => '',
-                'payinfo' => $_payinfo
-            );
-            $_rdata['referer'] = isset($url) ? $url : "";
-            $_rdata['state'] = "success";
-            header('Content-Type:application/json; charset=utf-8');
-            exit(json_encode($_rdata));
-        }
-
-        return hs_pay_responce(200, "请求成功", $_payinfo);
+//        $_pay_class = \huosdk\pay\Driver::init($_payway);
+//        //支付宝不调wap支付的游戏
+//        $_app_id = Session::get('app_id', 'app');
+//        $_old_games = array();
+//        if (!in_array($_app_id,$_old_games)){
+//            $_pay_switch = Session::get('pay_switch', 'order');
+//        }else{
+//            $_pay_switch = 2;
+//        }
+//        //ios游戏才进行切换操作
+//        if (2 != $_pay_switch) {
+//            $_payinfo = $_pay_class->mobilePay();
+//        } else {
+//            $_payinfo = $_pay_class->clientPay();
+//        }
+//        if (empty($_payinfo)) {
+//            return hs_pay_responce('0', "下单失败");
+//        }
+//        if (2 != $_pay_switch) {
+//            $_rdata = array(
+//                'status'  => 200,
+//                'info'    => '',
+//                'payinfo' => $_payinfo
+//            );
+//            $_rdata['referer'] = isset($url) ? $url : "";
+//            $_rdata['state'] = "success";
+//            header('Content-Type:application/json; charset=utf-8');
+//            exit(json_encode($_rdata));
+//        }
+//      return hs_pay_responce(200, "请求成功", $_payinfo);
     }
 }

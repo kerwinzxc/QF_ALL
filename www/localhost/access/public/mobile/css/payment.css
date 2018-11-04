@@ -294,7 +294,7 @@ footer {
     float: right
 }
 
-footer > a {
+#pay {
     display: block;
     width: 95%;
     margin: 0 auto;
