@@ -38,7 +38,8 @@ return [
     /*支付*/
     ':version/pay/sdkpay'            => 'pay/Sdkpay/index', /* 游戏预下单  */
     ':version/pay/preorder'          => 'pay/Sdkpay/pay', /* 玩家支付  */
-    'pay/preorder'                   => 'pay/Sdkpay/pay', /* 玩家支付  */
+    ':version/pay/listPurchases'     => 'pay/Sdkpay/listPurchasedItem', /* 玩家支付  */
+//    'pay/preorder'                   => 'pay/Sdkpay/pay', /* 玩家支付  */
 //    'alipay/notify'                  => 'Pay/alipay/notifyurl', /* 支付宝支付回调地址  */
 //    'alipay/return'                  => 'Pay/alipay/returnurl', /* 支付宝支付通知地址  */
 //    'alipay/showurl'                 => 'Pay/alipay/showurl',

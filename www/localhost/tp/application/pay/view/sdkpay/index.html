@@ -38,20 +38,6 @@
     <h3 class="info gray_title" >购买信息：</h3 >
     <p class="prop" >购买道具：<span >{$Think.session.order.product_name}</span ></p >
     <p class="prop_price" >道具价格：<span >{$Think.session.order.product_price}</span >元</p >
-    <p class="payed" >{:config('config.CURRENCY_NAME')}剩余：<span >{$Think.session.user.gmremain}</span ></p >
-    {egt name="Think.session.order.real_amount" value="0.01"}
-    <p class="canPay" >还需支付：<span >{$Think.session.order.real_amount}</span >元
-                       {switch name="Think.session.order.benefit_type" }
-                       {case value="1"}
-                       {neq name="Think.session.order.mem_rate" value="1"}
-                       (<i >{$Think.session.order.mem_rate*10}</i >折)
-                       {/neq}
-                       {/case}
-                       {case value="2"}
-    <p class="rebate" >返利：<span >{$Think.session.order.rebate_cnt}</span >元</p >{/case}
-    {default /}
-    {/switch}
-    </p>
 
     <a id="pay" href="#" class="pay" >立即支付</a >
 
@@ -60,16 +46,16 @@
 <!--选择支付方式-->
 <div class="change_way" >
     <h3 class="gray_title" >兑换清风币：</h3 >
-    <ul class="way" >
-        {foreach name="pkData" item="val"}
-            <li data-way="{$val.purchaseUuid}" >
-                <div class="way_icon"><img src="/public/mobile/images/GEC-logo150.png" alt="" /></div>
-                <span >{$val.price}</span>
-                <span >{$val.purpose}</span>
-                <input type="button" value="兑换" style="width:80px;height:25px;border:2px blue none;">
-                <div class="right_icon" ></div >
-            </li>
-        {/foreach}
+    <ul id="ways" class="way" >
+        <!--{foreach name="pkData" item="val"}-->
+            <!--<li data-way="{$val.purchaseUuid}" >-->
+                <!--<div class="way_icon"><img src="/public/mobile/images/GEC-logo150.png" alt="" /></div>-->
+                <!--<span >{$val.price}</span>-->
+                <!--<span >{$val.purpose}</span>-->
+                <!--<input type="button" value="兑换" style="width:80px;height:25px;border:2px blue none;">-->
+                <!--<div class="right_icon" ></div >-->
+            <!--</li>-->
+        <!--{/foreach}-->
 
 
         <!--<li data-way="alipay" >-->
@@ -107,10 +93,7 @@
     </ul >
     <input type="hidden" id="gamepay" name="gamepay" value='' />
 </div >
-{else /}
-<input type="hidden" id="gamepay" name="gamepay" value='gamepay' />
-</div>
-{/egt}
+
 <!--客服QQ-->
 <footer class="footer" >
     <p >

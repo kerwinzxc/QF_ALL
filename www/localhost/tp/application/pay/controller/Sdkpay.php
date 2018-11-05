@@ -122,6 +122,15 @@ class Sdkpay extends Basepay {
         return $this->fetch();
     }
 
+    public function listPurchasedItem() {
+        $memId = Session::get('id', 'user');
+        $rs = PkApi::listPurchaseItems($memId);
+        if ($rs == NULL) {
+            return hs_pay_responce(401, "cannot find valid access token from the user");
+        }
+        return hs_pay_responce(200, $rs);
+    }
+
     /*
      * 玩家选择支付方式 直接下单
      */

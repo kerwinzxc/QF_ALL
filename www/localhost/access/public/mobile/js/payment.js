@@ -15,31 +15,6 @@ var changePay         = {
     init    : function () {
         var isGamepay = document.getElementById("gamepay").value;
         var me        = this;
-        var liList    = document.querySelectorAll(".change_way>.way>li");
-        for (var i = 0; i < liList.length; i ++) {
-            liList[i].onclick = function () {
-                me.payType = this.getAttribute("data-way");
-                if (me.canPay) {
-                    var form_data = {
-                        paytype : me.payType,
-                        orderid : document.getElementById("orderid").value,
-                        paytoken: document.getElementById("paytoken").value,
-                        randnum : Math.random()
-                    };
-                    js_data='{ "order_id": "'+document.getElementById("orderid").value+'", "status": "1" }';
-
-                    huosdk_callp(js_data);
-
-                    var vurl      = document.getElementById("payform").getAttribute("action");
-                    ysSendData(vurl, form_data, preorder_succ, preorder_err);
-                } else {
-                    for (var j = 0; j < liList.length; j ++) {
-                        liList[j].className = '';
-                    }
-                    this.className = 'active';
-                }
-            };
-        }
         document.getElementById("pay").onclick = function () {
             if (isQingFengBiEnough) {
                 var form_data = {
@@ -58,6 +33,76 @@ var changePay         = {
     }
 }
 changePay.init();
+
+var purchasedPkItemsPanel = {
+    panelRootId : "ways",
+    panelRoot: null,
+    fetchPurchasedItems : function() {
+        ysSendData("listPurchases", {}, this.onFetchPurchasedItemsSuccess.bind(this), this.onFetchPurchasedItemsField.bind(this), "GET");
+    },
+    onFetchPurchasedItemsSuccess: function(results) {
+        var self = this;
+        console.log(results);
+        document._test = results;
+        this.panelRoot = document.getElementById("ways");
+        if (results.status != 200) {
+            self.panelRoot.innerHTML = results.info;
+        } else {
+            var purchases = results.info.purchases;
+            console.log(self);
+            console.log(self._generateHtmlForItems);
+            console.log(self._generateHtmlForItems(purchases));
+            self.panelRoot.innerHTML = self._generateHtmlForItems(purchases);
+            var liList = document.querySelectorAll(".change_way>.way>li");
+            for (var i = 0; i < liList.length; i ++) {
+                liList[i].onclick = function () {
+                    paytype = this.getAttribute("data-way");
+                    var form_data = {
+                        paytype: paytype,
+                        orderid: document.getElementById("orderid").value,
+                        paytoken: document.getElementById("paytoken").value,
+                        randnum: Math.random()
+                    };
+                    var js_data = '{ "order_id": "' + document.getElementById("orderid").value + '", "status": "1" }';
+                    huosdk_callp(js_data);
+
+                    var vurl = document.getElementById("payform").getAttribute("action");
+                    ysSendData(vurl, form_data, preorder_succ, preorder_err);
+                };
+            }
+        }
+    },
+    onFetchPurchasedItemsField: function(results) {
+        this.panelRoot = document.getElementById("ways");
+        this.panelRoot.innerHTML = results;
+    },
+    _generateHtmlForItems: function(items) {
+        var self = this;
+        var html = "";
+        for(var i = 0 ; i < items.length; i++) {
+            html += self._generateHtmlForOneItem(items[i]);
+        }
+        return html;
+    },
+    _generateHtmlForOneItem: function(item) {
+        if (item) {
+            var template = '<li data-way="'+ item.purchaseUuid + '" >\n' +
+                '                <div class="way_icon"><img src="/public/mobile/images/GEC-logo150.png" alt="" /></div>\n' +
+                '                <span >' + item.price + '</span>\n' +
+                '                <span >' + item.purpose + '</span>\n' +
+                '                <input type="button" value="兑换" style="width:80px;height:25px;border:2px blue none;">\n' +
+                '                <div class="right_icon" ></div >\n' +
+                '            </li>'
+            return template;
+        }
+        return "";
+    },
+
+};
+
+purchasedPkItemsPanel.fetchPurchasedItems();
+
+
 function ysSendData(url, data, succ, err, type, dataType, conentType) {
     if (! type) {
         type = "POST"
