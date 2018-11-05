@@ -10,16 +10,17 @@ use think\Db;
 
 define("PK_API_ROOT", "https://playground.dobby.sandbx.co/");
 define("PK_GAME_UUID", "demo-game");
+define("PK_INVALID_TOKEN", "invalid_token");
 
 class PkApi {
 
-    public static function getAccessTokenByMemId($memId) {
+    public static function getAccessTokenByMemId($memId, $forceToRefresh = false) {
         $_map['mem_id'] = $memId;
         $_oath_data = Db::name('mem_oauth')->where($_map)->find();
         if (empty($_oath_data)) {
             return NULL;
         }
-        if (time() < $_oath_data['expires_date']) {
+        if (!$forceToRefresh && time() < $_oath_data['expires_date']) {
             return $_oath_data['access_token'];
         }
         $rs = self::getTokenViaRefreshToken($_oath_data['refresh_token']);
@@ -56,7 +57,7 @@ class PkApi {
      */
 
     public static function getTokenViaRefreshToken($refreshToken) {
-        $apiUri = PK_API_ROOT . "security/oauth/refresh_token";
+        $apiUri = PK_API_ROOT . "security/oauth/token/refresh_token";
         $data = array(
             'refresh_token' => $refreshToken,
             'grant_type' => 'refresh_token'
@@ -83,9 +84,22 @@ class PkApi {
      *           "purpose": "Demo Game, Gold 10"
      *       },
      */
-    public static function listPurchaseItems($accessToken){
+    public static function listPurchaseItems($memId){
+        $accessToken = self::getAccessTokenByMemId($memId);
+        if ($accessToken == NULL) {
+            return NULL;
+        }
         $apiUri = PK_API_ROOT . "api/games/" . PK_GAME_UUID . "/purchases";
         $rs = \pksdk\request\Request::getWithPkTokenJsonResponse($apiUri, $accessToken);
+        if (!empty($rs) && isset($rs['error'])) {
+            if (strcmp($rs['error'], PK_INVALID_TOKEN) == 0) {
+                $accessToken = self::getAccessTokenByMemId($memId, true);
+                if ($accessToken == NULL) {
+                    return NULL;
+                }
+                $rs = \pksdk\request\Request::getWithPkTokenJsonResponse($apiUri, $accessToken);
+            }
+        }
         return $rs;
     }
 
@@ -100,12 +114,25 @@ class PkApi {
      *  }
      */
 
-    public static function consumeItem($purchaseUuid, $accessToken){
+    public static function consumeItem($purchaseUuid, $memId){
+        $accessToken = self::getAccessTokenByMemId($memId);
+        if ($accessToken == NULL) {
+            return NULL;
+        }
         $apiUri = PK_API_ROOT . "api/purchases/{$purchaseUuid}/consume";
         $data = array(
             'purchaseUuid' => $purchaseUuid,
         );
         $rs = \pksdk\request\Request::postWithPkTokenJsonResponse($apiUri, $data, $accessToken);
+        if (!empty($rs) && isset($rs['error'])) {
+            if (strcmp($rs['error'], PK_INVALID_TOKEN) == 0) {
+                $accessToken = self::getAccessTokenByMemId($memId, true);
+                if ($accessToken == NULL) {
+                    return NULL;
+                }
+                $rs = \pksdk\request\Request::postWithPkTokenJsonResponse($apiUri, $data, $accessToken);
+            }
+        }
         return $rs;
     }
 }
