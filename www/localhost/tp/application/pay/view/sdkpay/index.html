@@ -31,7 +31,7 @@
 <!--帐号信息-->
 <div class="account_information" >
     <p class="account" >PowerKingdom帐号：<i >{$Think.session.user.username}</i ></p >
-    <p class="balance" >{:config('config.CURRENCY_NAME')}余额：<span >{$Think.session.user.gmremain}</span ></p >
+    <p class="balance" >{:config('config.CURRENCY_NAME')}余额：<span id="balance">{$Think.session.user.gmremain}</span ></p >
 </div >
 <!--购买信息-->
 <div class="buy_information" >

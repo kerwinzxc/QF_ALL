@@ -38,20 +38,15 @@ var purchasedPkItemsPanel = {
     panelRootId : "ways",
     panelRoot: null,
     fetchPurchasedItems : function() {
-        ysSendData("listPurchases", {}, this.onFetchPurchasedItemsSuccess.bind(this), this.onFetchPurchasedItemsField.bind(this), "GET");
+        ysSendData("listPurchases", {}, this.onFetchPurchasedItemsSuccess.bind(this), this.onFetchPurchasedItemsFailed.bind(this), "GET");
     },
-    onFetchPurchasedItemsSuccess: function(results) {
+    onFetchPurchasedItemsSuccess: function(rs) {
         var self = this;
-        console.log(results);
-        document._test = results;
         this.panelRoot = document.getElementById("ways");
-        if (results.status != 200) {
-            self.panelRoot.innerHTML = results.info;
+        if (rs.status != 200) {
+            self.panelRoot.innerHTML = rs.info;
         } else {
-            var purchases = results.info.purchases;
-            console.log(self);
-            console.log(self._generateHtmlForItems);
-            console.log(self._generateHtmlForItems(purchases));
+            var purchases = rs.info.purchases;
             self.panelRoot.innerHTML = self._generateHtmlForItems(purchases);
             var liList = document.querySelectorAll(".change_way>.way>li");
             for (var i = 0; i < liList.length; i ++) {
@@ -67,12 +62,29 @@ var purchasedPkItemsPanel = {
                     huosdk_callp(js_data);
 
                     var vurl = document.getElementById("payform").getAttribute("action");
-                    ysSendData(vurl, form_data, preorder_succ, preorder_err);
+                    ysSendData(vurl, form_data, self.onPurchaseSuccess.bind(self), self.onPurchaseFailed.bind(self));
                 };
             }
         }
     },
-    onFetchPurchasedItemsField: function(results) {
+    onPurchaseSuccess: function(rs) {
+        var self = this;
+        console.log("onPurchaseSuccess");
+        console.log(rs);
+        self.fetchPurchasedItems();
+        if (rs.info["gmremain"] !== undefined) {
+            document.getElementById("balance").innerText = rs.info["gmremain"];
+        }
+    },
+    onPurchaseFailed: function(rs) {
+        //TODO: 错误提示
+        console.log("onPurchaseFailed");
+        console.log(rs);
+        var self = this;
+        self.fetchPurchasedItems();
+    },
+    onFetchPurchasedItemsFailed: function(results) {
+        //TODO: 错误提示
         this.panelRoot = document.getElementById("ways");
         this.panelRoot.innerHTML = results;
     },

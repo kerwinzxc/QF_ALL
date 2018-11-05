@@ -181,7 +181,7 @@ class Pk {
      * @return double 余额
      */
     public function getRemain($mem_id, $appid = 0) {
-        if (empty($mem_id) || empty($appid)) {
+        if (empty($mem_id)) {
             return 0;
         }
         $_map['mem_id'] = $mem_id;
@@ -371,6 +371,35 @@ class Pk {
         return false;
     }
 
+    /**
+     *
+     */
+    public function preorderForPk ($memId, $money, $gm_cnt, $real_amount, $purchaseUuid) {
+        // 组建订单数据
+        $_order_data['mem_id'] = $memId;
+        $_order_data['order_id'] = Commonfunc::setOrderid($_order_data['mem_id']);
+        $_order_data['flag'] = $this->getFlag(PAYFROM_APP);
+        $_order_data['admin_id'] = 0;
+        $_order_data['app_id'] = 0;
+        $_order_data['money'] =  $money;
+        $_order_data['gm_cnt'] = $gm_cnt;
+        $_order_data['real_amount'] = $real_amount;
+        $_order_data['rebate_cnt'] = 0;
+        $_order_data['discount'] = 1;
+        $_order_data['payway'] = '0';
+        $_order_data['ip'] = Session::get('ip', 'device');
+        $_order_data['status'] = 1;
+        $_order_data['create_time'] = time();
+        $_pay_id = $this->insertPay($_order_data);
+        if ($_pay_id) {
+            $this->setCouponlog($_order_data, $purchaseUuid);
+            return $_order_data;
+        }
+        return NULL;
+    }
+
+
+
     public function setCouponlog($_order_data, $ext) {
         $_data['order_id'] = $_order_data['order_id'];
         $_data['mem_id'] = $_order_data['mem_id'];
@@ -457,13 +486,13 @@ class Pk {
         }
         if (2 != $_cpl_data['status']) {
             Db::name('coupon_pay_log')->where($_map)->setField('status', 2);
-            $_coupon_class = new \huosdk\coupon\Coupon();
-            $_c_money = $_coupon_class->getMoneybyString($pay_data['mem_id'], $_cpl_data['couponcontent']);
-            if (empty($_c_money)) {
-                return true;
-            }
-
-            return $_coupon_class->setMoneybyString($pay_data['mem_id'], $_cpl_data['couponcontent']);
+//            TODO: It seems like not needed to update coupon
+//            $_coupon_class = new \huosdk\coupon\Coupon();
+//            $_c_money = $_coupon_class->getMoneybyString($pay_data['mem_id'], $_cpl_data['couponcontent']);
+//            if (empty($_c_money)) {
+//                return true;
+//            }
+//            return $_coupon_class->setMoneybyString($pay_data['mem_id'], $_cpl_data['couponcontent']);
         }
 
         return true;

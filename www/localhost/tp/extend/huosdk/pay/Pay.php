@@ -243,16 +243,23 @@ class Pay {
         $_wallet_real_price = number_format($_wallet_remain / abs($_wallet_rate), 2, '.', ''); /* 钱包实际价值 */
         $_product_price = number_format($_order_data['amount'], 2, '.', '');
         $_no_wallet_amount = $_product_price; /* 非wallet支付金额 */
-        if (0 < $_wallet_real_price && $_wallet_real_price <= $_product_price) {
-            /* 实际余额少于商品价格 */
-            $_order_data['gm_cnt'] = $_wallet_remain;
-            $_no_wallet_amount = $_product_price - $_wallet_real_price;
-        } else if ($_wallet_real_price > $_product_price) {
-            /* 余额大于商品价格 */
-            $_order_data['gm_cnt'] = number_format($_product_price * abs($_wallet_rate), 2, '.', '');
-            $_no_wallet_amount = 0;
-            $_order_data['real_amount'] = 0;
-        }
+
+        //always wallet pay
+        $_order_data['gm_cnt'] = number_format($_product_price * abs($_wallet_rate), 2, '.', '');
+        $_no_wallet_amount = 0;
+        $_order_data['real_amount'] = $_product_price;
+
+//        if (0 < $_wallet_real_price && $_wallet_real_price <= $_product_price) {
+//            /* 实际余额少于商品价格 */
+//            $_order_data['gm_cnt'] = $_wallet_remain;
+//            $_no_wallet_amount = $_product_price - $_wallet_real_price;
+//        } else if ($_wallet_real_price > $_product_price) {
+//            /* 余额大于商品价格 */
+//            $_order_data['gm_cnt'] = number_format($_product_price * abs($_wallet_rate), 2, '.', '');
+//            $_no_wallet_amount = 0;
+//            $_order_data['real_amount'] = $_product_price;
+//        }
+
         // 除去清风币或平台币支付 后需要支付的金额
         // 去除清风币计算折扣
         $this->setRate($_order_data, $_no_wallet_amount);

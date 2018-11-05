@@ -16,6 +16,7 @@ use app\common\controller\Basepay;
 use pksdk\api\PkApi;
 use think\Db;
 use think\Session;
+use huosdk\wallet\Wallet;
 use think\Log;
 
 class Sdkpay extends Basepay {
@@ -128,7 +129,15 @@ class Sdkpay extends Basepay {
         if ($rs == NULL) {
             return hs_pay_responce(401, "cannot find valid access token from the user");
         }
+        if (!empty($rs['purchases'])) {
+            Session::set("pkitems", $rs['purchases']);
+        }
         return hs_pay_responce(200, $rs);
+    }
+
+    public function purchaseItem() {
+        $memId = Session::get('id', 'user');
+
     }
 
     /*
@@ -160,17 +169,58 @@ class Sdkpay extends Basepay {
         if ($_order_time + 86400 < $_time) {
             return hs_pay_responce(0, "订单已失效,请重新选择支付");
         }
-        $_real_amount = Session::get('real_amount', 'order');
-        $_amount = Session::get('product_price', 'order');
-        $_p_class = new  \huosdk\pay\Pay();
-        $_p_class->upPayway($_order_id, "gamepay");
-        if ($_real_amount <= 0) {
-            $_p_class->upPayway($_order_id, "gamepay");
-            $_p_class->sdkNotify($_order_id, $_amount, $_order_id);
-            $_payinfo = $_p_class->clientAjax('gamepay', '', 2);
-            return hs_pay_responce(200, "支付成功", $_payinfo);
+        $memId = Session::get('id', 'user');
+        $_pay_class = Wallet::init();
+        if (strcmp($_payway, "gamepay") == 0) {
+
+            $_amount = Session::get('product_price', 'order');
+            $_wallet_remain = $_pay_class->getRemain($memId);
+            if ($_wallet_remain >= $_amount) {
+                $_p_class = new  \huosdk\pay\Pay();
+                $_p_class->upPayway($_order_id, "gamepay");
+                $_p_class->sdkNotify($_order_id, $_amount, $_order_id);
+                $_payinfo = $_p_class->clientAjax('gamepay', '', 2);
+                return hs_pay_responce(200, "支付成功", $_payinfo);
+            } else {
+                return hs_pay_responce(0, "清风币不够，请充值后再支付");
+            }
         } else {
-            return hs_pay_responce(0, "清风币不够，请充值后再支付");
+            $purchaseUuid = $_payway;
+            $pkitems = Session::get('pkitems');
+            if (empty($pkitems)) {
+                return hs_pay_responce(0, "系统无法找到购买的物品");
+            }
+            $purchaseItem = NULL;
+            foreach ($pkitems as $item) {
+                if(strcmp($item["purchaseUuid"], $purchaseUuid) == 0) {
+                    $purchaseItem = $item;
+                }
+            }
+            if (empty($purchaseItem)) {
+                return hs_pay_responce(0, "系统无法找到购买的物品");
+            }
+
+
+
+            //TODO: price
+            $money = $purchaseItem['price'];
+            $gm_cnt = $purchaseItem['price'];;
+            $real_amount = $purchaseItem['price'];;
+
+            $orderData = $_pay_class->preorderForPk($memId, $money, $gm_cnt, $real_amount, $purchaseUuid);
+            if (empty($orderData)) {
+                return hs_pay_responce(0, "非法请求,参数错误");
+            }
+            $rs = PkApi::consumeItem($purchaseUuid, $memId);
+            if (!empty($rs) && isset($rs["status"])) {
+                if (strcmp($rs["status"], "SUCCESS") == 0) {
+                    $_pay_class->walletNotify($orderData["order_id"], $money, "from PK service");
+                    $_wallet_remain = $_pay_class->getRemain($memId);
+                    $obj["gmremain"] = $_wallet_remain;
+                    return hs_pay_responce(200, $obj);
+                }
+            }
+            return hs_pay_responce(0, "充值失败，请重试");
         }
 //        if ($_real_amount <= 0 && $_amount > 0) {
 //            /* 全部清风币支付 */
