@@ -391,8 +391,9 @@ class Member {
         $_oauth_data['status'] = 2;
         $_oauth_data['mem_id'] = 0;
         //TODO: access_token is not fitting for the table in qingfeng, needs to create new tables
-        $_oauth_data['access_token'] = "accessToken"; // $pkToken['access_token']
-        $_oauth_data['expires_date'] = $pkToken['expires_in'];
+        $_oauth_data['access_token'] = $pkToken['access_token'];
+        $_oauth_data['refresh_token'] = $pkToken['refresh_token'];
+        $_oauth_data['expires_date'] = time() + $pkToken['expires_in'] * 1000;
         $_oauth_data['mem_id'] = $_mem_info['id'];
 
         Db::name('mem_oauth')->update($_oauth_data);
