@@ -6,11 +6,32 @@
 namespace pksdk\api;
 
 use think\Log;
+use think\Db;
 
 define("PK_API_ROOT", "https://playground.dobby.sandbx.co/");
 define("PK_GAME_UUID", "demo-game");
 
 class PkApi {
+
+    public static function getAccessTokenByMemId($memId) {
+        $_map['mem_id'] = $memId;
+        $_oath_data = Db::name('mem_oauth')->where($_map)->find();
+        if (empty($_oath_data)) {
+            return NULL;
+        }
+        if (time() < $_oath_data['expires_date']) {
+            return $_oath_data['access_token'];
+        }
+        $rs = self::getTokenViaRefreshToken($_oath_data['refresh_token']);
+        if (empty($rs) || empty($rs['access_token'])) {
+            return NULL;
+        }
+        $_oauth_data['access_token'] = $rs['access_token'];
+        $_oauth_data['refresh_token'] = $rs['refresh_token'];
+        $_oauth_data['expires_date'] = time() + $rs['expires_in'] * 1000;
+        Db::name('mem_oauth')->update($_oauth_data);
+        return $rs['access_token'];
+    }
 
     public static function getToken($username, $password) {
         $apiUri = PK_API_ROOT . "security/oauth/token";
@@ -22,6 +43,17 @@ class PkApi {
         $rs = \pksdk\request\Request::postWithoutPkTokenJsonResponse($apiUri, $data);
         return $rs;
     }
+
+    /*
+     *     {
+     *           "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDExNTczNTAsInVzZXJfbmFtZSI6IjMzIiwiYXV0aG9yaXRpZXMiOlsiUkVHSVNURVJFRF9VU0VSIl0sImp0aSI6IjQ1ZWJiNTYwLWQ1MDQtNDQ1NS1hY2ViLThmMmZjOTfdsdsfdsfdsfsd3cml0ZSJdfQ.dnZXBGdI7KK5RLIfavk8fnh3Q0vAtXxHTm8B-lFxU5I",
+     *           "token_type": "bearer",
+     *           "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiIzMyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJhdGkiOiI0NWViYjU2MC1kNTA0LTQ0NTUtYWNlYi04ZjJmYzk4MzUzNmQiLCJleHAiOjE1MDExOTAxMTAsImF1dGhvcml0aWVzIjpbIlJFR0lTVEVSRURfVVNFUiJdLCJqdGkiOiJjNWIwYTIxMC0xMWM1LTRiNmEtYmI4My0zYjI0OGI3NDVhYjUiLCJjbGllbnRfaWQiOfdsfdsfdsfsd3ZWJjbGllbnQifQ.txaiH2sKHJTOh7EkaEr-GIFW18OjdIteDgl-pxhcgLE",
+     *           "expires_in": 1799,
+     *           "scope": "read write",
+     *           "jti": "45ebb560-d504-4455-aceb-8f2fc983536d"
+     *      }
+     */
 
     public static function getTokenViaRefreshToken($refreshToken) {
         $apiUri = PK_API_ROOT . "security/oauth/refresh_token";
