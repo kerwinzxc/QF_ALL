@@ -55,9 +55,8 @@ class PkApi {
      *           "jti": "45ebb560-d504-4455-aceb-8f2fc983536d"
      *      }
      */
-
     public static function getTokenViaRefreshToken($refreshToken) {
-        $apiUri = PK_API_ROOT . "security/oauth/token/refresh_token";
+        $apiUri = PK_API_ROOT . "security/oauth/token";
         $data = array(
             'refresh_token' => $refreshToken,
             'grant_type' => 'refresh_token'
